@@ -71,6 +71,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <errno.h>
 
 /* bdwgc's threading helpers (GC_pthread_create / _join / etc.)
  * are only declared in <gc.h> when GC_THREADS is defined BEFORE
@@ -345,13 +346,22 @@ static inline code_bool Amalgame_Threading_ThreadIsAlive(AmalgameThread* t) {
 }
 
 /* Static-style sleep. Suspends the calling thread for ms
- * milliseconds. Implemented via nanosleep on POSIX. */
+ * milliseconds. Implemented via nanosleep on POSIX.
+ *
+ * nanosleep returns early with EINTR whenever a signal handler
+ * runs on the calling thread, and it is never restarted by
+ * SA_RESTART. The Boehm GC stops the world by signalling every
+ * registered thread at EACH collection, so a single nanosleep
+ * call wakes at the next collection: a thread that asks for
+ * 24 h sleeps a few hundred milliseconds in a program that
+ * allocates. Resume with the remaining time until the full
+ * delay has elapsed. */
 static inline void Amalgame_Threading_ThreadSleep(i64 ms) {
     if (ms <= 0) return;
-    struct timespec ts;
+    struct timespec ts, rem;
     ts.tv_sec  = (time_t) (ms / 1000);
     ts.tv_nsec = (long) ((ms % 1000) * 1000000L);
-    nanosleep(&ts, NULL);
+    while (nanosleep(&ts, &rem) != 0 && errno == EINTR) ts = rem;
 }
 
 #endif /* AMALGAME_THREADING_H */

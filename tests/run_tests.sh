@@ -149,6 +149,7 @@ run_test "TryReceive on empty returns 0"         "[PASS] TryReceive on empty ret
 run_test "ChannelClose"                          "[PASS] ChannelClose"
 run_test "Receive drains then sentinels"         "[PASS] Receive drains then sentinels"
 run_test "Thread.Sleep returns cleanly"          "[PASS] Thread.Sleep returns cleanly"
+run_test "Thread.Sleep survives GC signals"      "[PASS] Thread.Sleep survives GC signals"
 run_test "worker thread + channel"               "[PASS] worker thread + channel consumed 5 values"
 run_test "4 producers x 10 sends"                "[PASS] 4 producers x 10 sends consumed correctly"
 
