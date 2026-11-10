@@ -61,7 +61,7 @@
 
 [package]
 name              = "amalgame-threading"
-version           = "0.1.0"
+version           = "0.1.1"
 license           = "Apache-2.0"
 description       = "Threading primitives for Amalgame — Mutex, Channel, Thread.Spawn/Join/Sleep on top of pthread + bdwgc-safe registration."
 authors           = ["Bastien Mouget"]
