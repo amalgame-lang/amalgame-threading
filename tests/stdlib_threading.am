@@ -35,7 +35,7 @@ public class Program {
         }
 
         // ── Channel single-thread round-trip ─────────────────
-        let ch = Threading.ChannelNew(4)
+        let ch: AmalgameChannel = Threading.ChannelNew(4)
         Threading.ChannelSend(ch, 10)
         Threading.ChannelSend(ch, 20)
         Threading.ChannelSend(ch, 30)
@@ -123,7 +123,7 @@ public class Program {
         }
 
         // ── Spawn a worker that writes to a channel ──────────
-        let workCh = Threading.ChannelNew(8)
+        let workCh: AmalgameChannel = Threading.ChannelNew(8)
         let worker = (id: int) => {
             // Write 5 values then close
             var i: int = 0
@@ -159,7 +159,7 @@ public class Program {
         // ── 4 producer threads + 1 consumer ──────────────────
         // Demonstrates multi-threaded contention on a single
         // channel — every thread sends 10 values, consumer sums.
-        let bigCh = Threading.ChannelNew(16)
+        let bigCh: AmalgameChannel = Threading.ChannelNew(16)
         let producer = (pid: int) => {
             var k: int = 0
             while (k < 10) {
