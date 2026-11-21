@@ -23,7 +23,7 @@ jobs:
         # v0.8.19+ required (cgen + LSP fixes from the postgresql
         # session). Append tags as amc cuts meaningfully relevant
         # releases.
-        amc-tag: [v0.8.20]
+        amc-tag: [v0.8.91]
 
     steps:
       - uses: actions/checkout@v4
